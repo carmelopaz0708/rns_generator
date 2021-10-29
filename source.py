@@ -1,5 +1,3 @@
-# REINITIALIZE REPOSITORY
-
 from openpyxl import load_workbook
 import sys
 
