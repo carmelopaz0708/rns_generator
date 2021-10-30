@@ -2,8 +2,8 @@
 
 from openpyxl import load_workbook
 from os import path
+import excep as e
 import sys
-import excep
 
 
 def main():
@@ -27,29 +27,60 @@ def main():
 
     # Load workbook into memory
     wb = load_workbook(referenceFile)
-    pSize = getPopulation()
-    print(pSize)
+    userInput = getInput(wb)
+    
+    print(userInput)
 
     sys.exit(0)
 
 
-# Change this function to return a tuple of input variables
-def getPopulation():
+def getInput(workbook):
+    # Get reference table
+    sheet = tuple(workbook.sheetnames)
+    print("Enter number selection to load table (1, 2, ...)")
+    for index, title in enumerate(sheet):
+        print("{}. {}".format(index + 1, title))
+
+    errorOptionMsg = "Enter selection from available options."
     while True:
         try:
-            populationSize = int(input("Enter population size: "))
-            if populationSize <= 0:
-                raise excep.InputError("Population must be a valid positive integer.")
+            inputReference = int(input("Enter selected table (1, 2, ...): "))
+
+            if (inputReference - 1) < 0 or (inputReference - 1) > len(sheet):
+                raise e.OptionError(errorOptionMsg)
+
+            break
+        
+        except ValueError:
+            print(errorOptionMsg)
+
+        except KeyboardInterrupt:
+            sys.exit(0)
+
+    # Get sample size
+    errorValueMsg = "Value must be a valid positive integer."
+    while True:
+        try:
+            sampleSize = int(input("Enter sample size: "))
+
+            if sampleSize <= 0:
+                raise e.InputError(errorValueMsg)
 
             break
 
         except ValueError:
-            print("Population must be a valid positive integer.")
-        
+            print(errorValueMsg)
+
         except KeyboardInterrupt:
             sys.exit(0)
-        
-    return populationSize
+    
+    # Get RNS start position
+
+    # Check input if it satisfies table requirements
+    # Might need to add some more setup to reference files to indicate metadata. Or use a csv file instead
+
+    # Before returning values, reprompt the user if values are acceptable
+    return inputReference, sampleSize
 
 
 if __name__ == "__main__":
