@@ -27,60 +27,73 @@ def main():
 
     # Load workbook into memory
     wb = load_workbook(referenceFile)
-    userInput = getInput(wb)
     
+    userInput = getInput(wb)
     print(userInput)
 
     sys.exit(0)
 
 
+# TODO Must separate getInputs as their own function
 def getInput(workbook):
     # Get reference table
     sheet = tuple(workbook.sheetnames)
-    print("Enter number selection to load table (1, 2, ...)")
-    for index, title in enumerate(sheet):
-        print("{}. {}".format(index + 1, title))
+    print("Loaded {} sheets from {}.".format(len(sheet), sys.argv[1]))
+    for i, j in enumerate(sheet):
+        print("{} - {}".format(i + 1, j))
 
-    errorOptionMsg = "Enter selection from available options."
+    errOptMsg = "Enter number from available options."
     while True:
         try:
-            inputReference = int(input("Enter selected table (1, 2, ...): "))
+            usrTable = int(input("Enter number of desired table: "))
 
-            if (inputReference - 1) < 0 or (inputReference - 1) > len(sheet):
-                raise e.OptionError(errorOptionMsg)
+            if (usrTable - 1) < 0 or (usrTable - 1) > len(sheet):
+                raise e.OptionError(errOptMsg)
 
             break
         
         except ValueError:
-            print(errorOptionMsg)
+            print(errOptMsg)
 
         except KeyboardInterrupt:
             sys.exit(0)
+    
+    table = sheet[usrTable - 1]
 
     # Get sample size
-    errorValueMsg = "Value must be a valid positive integer."
+    errValMsg = "Value must be a valid positive integer."
     while True:
         try:
             sampleSize = int(input("Enter sample size: "))
 
             if sampleSize <= 0:
-                raise e.InputError(errorValueMsg)
+                raise e.InputError(errValMsg)
 
             break
 
         except ValueError:
-            print(errorValueMsg)
+            print(errValMsg)
 
         except KeyboardInterrupt:
             sys.exit(0)
     
-    # Get RNS start position
+    # Get RNS start position.
+    # TODO Iterate rows and column with worksheet.rows / worksheet.columns
+    # while True:
+    #     try:
+    #         column = int(input("Enter RNS column position: "))
+
+    #         # Check if column goes beyond column limit
+    #         break
+
+    #     except:
+    #         pass
 
     # Check input if it satisfies table requirements
     # Might need to add some more setup to reference files to indicate metadata. Or use a csv file instead
 
     # Before returning values, reprompt the user if values are acceptable
-    return inputReference, sampleSize
+    return table, sampleSize
 
 
 if __name__ == "__main__":
