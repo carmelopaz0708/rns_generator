@@ -9,7 +9,7 @@ class InputError(Error):
         self.message = message
 
 class OptionError(Error):
-    """Expression raised from selecting nonexistent option"""
+    """Expression raised from selecting a nonexistent option"""
 
     def __init__(self, message):
         self.message = message
