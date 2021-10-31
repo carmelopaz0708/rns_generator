@@ -27,13 +27,14 @@ def main():
     sep = "----------------------------------------------------------"
     print("{}\n\tRANDOM NUMBER SEQUENCE GENERATOR\n{}".format(sep, sep))
 
-    # Load variables into memory. Wrap this is a loop with a flag to allow reprompt
+    # Load variables into memory.
     wb = load_workbook(referenceFile)
     
     tbName = getTableName(wb, sep)
     tbData = getTableData(wb, tbName)
     pSize = getPopulation(sep)
     sSize = getSampleSize(sep)
+
     rowLength = len(tbData)
     colLength = len(tbData[0])
     pos = getPosition(rowLength, colLength, tbData, sep)
@@ -42,8 +43,31 @@ def main():
     isFinal = finalize(tbName, pSize, sSize, pos, swp, sep)
     
     if isFinal != True:
-        print("Exiting program.")
+        print("Closing program.")
         sys.exit(0)
+
+    # Generate sequence
+    outData = []
+
+    if swp == "Left to Right":
+        a = tbData[pos[1] + 1:]
+        b = tbData[pos[1]][pos[2]:]
+        # pop the sliced list as a final reference point
+        print("a: {}".format(a))
+        print("b: {}".format(b))
+        c = b.append(a)
+        print("c: {}".format(c))
+
+    # if swp == "Left to Right":
+
+    #     for row in len(range(pos[1], rowLength)):
+    #         # Can add position checking here. Two if conditions that signify complete and incomplete iteration
+
+    #         # Bug in logic from here up to end. Range() is making the for loop count up
+    #         for cell in len(range(0, colLength)):
+
+    #             if cell <= pSize and len(outData) < sSize:
+    #                 outData.append(cell)
 
     sys.exit(0)
 
@@ -82,7 +106,7 @@ def getTableData(key, value):
     data = []
 
     for row in ws.iter_rows(min_row = 1, values_only = True):
-        data.append(row)
+        data.append(list(row))
 
     return data
 
@@ -193,7 +217,7 @@ def getSweep(s):
 
 def finalize(tableName, populationSize, sampleSize, position, sweep, s):
     print("Table: {}\nPopulation Size: {}\nSample Size: {}".format(tableName, populationSize, sampleSize))
-    print("RNS Start Value: {}\nRNS Start Position:  row {}, col. {}".format(position[0], position[1] + 1, position[2] + 1))
+    print("RNS Start Value: {}\nRNS Start Position: row {}, col. {}".format(position[0], position[1] + 1, position[2] + 1))
     print("Sweep: {}".format(sweep))
 
     while True:
