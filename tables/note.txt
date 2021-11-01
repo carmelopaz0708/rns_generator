@@ -1,0 +1,6 @@
+REFERENCE DIRECTORY
+
+Table to store RNS reference files. Reference files can only be in Excel 2010 standard format (see README). You can store multiple 
+reference files in this folder however, the program will only load one file when executed.
+
+Do not delete this folder. In case of deletion, create a folder called "table" in the same directory as "output".
