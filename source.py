@@ -1,9 +1,9 @@
 """
 RNS Generator v1.0.0
-    A command line script for generating random sequences of integers based on user input. Infers the data from an external table of reference values. This script
-can be used for random, systematic and monetary unit sampling.
-    For installation, use and troubleshooting, please refer to the README file. Code is available in the author's public Github repository by following the link 
-below.
+    A command-line script for generating random number sequences from an external reference table. This script can be used for random, systematic and monetary 
+unit sampling.
+    For installation, use and troubleshooting, please refer to the README file. Code is available in the author's public Github repository by following the 
+link below.
 
 (C) 2021 Carmelo Julius Paz
 (email) carmelopaz0708@gmail.com
