@@ -28,6 +28,8 @@ As mentioned, external reference files, called *tables*, should be stored in the
 
 Likewise, all cells in the reference file comprising the *table* should contain integers only. **Do not include row nor column headers in the reference file**. Do not include letters, symbols nor special characters in the *table*. Doing so will prevent the code from parsing the *table* and will undoubtedly crash the script. No formatting is required for the reference file either; just enter the data until it forms the *table*. You can opt to format the cells in the reference table for better readability as doing so will have no effect on the script parsing data.
 
+Lastly, while not explicitly required, is highly recommended to name all the available worksheets in your reference file. The script will parse worksheet names and help the disambiguate from each table. 
+
 ### Running the script
 Clone this repo and save it to any directory in your system. From the terminal, run a `cd` command to the repo. Make sure you are in `rns_generator\`. You can check your current directory by running a `dir` command. 
 
