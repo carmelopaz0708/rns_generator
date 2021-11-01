@@ -4,14 +4,21 @@ A command-line script for generating random number sequences from an external re
 ## Description
 Python script that generates a random sequence of integers. The script infers its sequence values from an external reference file stored in `rns_generator\tables\`. All other parameters should be provided by the user at runtime. This script can be used for probability sampling and can generate sequences for random, systematic and monetary sampling routines. An external reference table is **required** when running this script should be provided by the user.
 
+## Dependencies
+The latest version of [Python](https://www.python.org/downloads/) is required to run this script. Additionally, you will need to install the latest version of the [openpyxl](https://pypi.org/project/openpyxl/) library. This will allow the script to load tables. In order to get `openpyxl`, run the code below into your terminal.
+
+```pip install openpyxl```
+
+Note that [pip](https://pypi.org/project/pip/) is required to install external Python packages. To install `pip`, please refer to [pip installation](https://pip.pypa.io/en/stable/installation/).
+
 ## Preparation
 ### Preparing tables
-As mentioned, external reference files, called *tables*, should be stored in `rns_generator\tables\` directory. Tables should be in standard Excel 2010 format. Allowable file extensions for this type are `.xlsx`, `.xlsm`, `.xltx` and `.xltm`.
+As mentioned, external reference files, called *tables*, should be stored in the `rns_generator\tables\` directory. Tables should be in standard Excel 2010 format. Allowable file extensions for this type are `.xlsx`, `.xlsm`, `.xltx` and `.xltm`.
 
 Table files should also contain.
 
 
-# Preparation
+# Execution Policy
 
 Before using the program, ensure ```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process```. Then, activate virtual environment with ```env/Scripts/activate```.
 
