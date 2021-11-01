@@ -40,34 +40,32 @@ def main():
     pos = getPosition(rowLength, colLength, tbData, sep)
     swp = getSweep(sep)
 
+    # Check user input
     isFinal = finalize(tbName, pSize, sSize, pos, swp, sep)
     
-    if isFinal != True:
+    if isFinal == False:
         print("Closing program.")
         sys.exit(0)
 
-    # Generate sequence
+    # Generate RNS sequence
     outData = []
 
     if swp == "Left to Right":
         a = tbData[pos[1] + 1:]
         b = tbData[pos[1]][pos[2]:]
-        # pop the sliced list as a final reference point
-        print("a: {}".format(a))
-        print("b: {}".format(b))
-        c = b.append(a)
-        print("c: {}".format(c))
+        a.insert(0, b)
+        
+        for row in a:
 
-    # if swp == "Left to Right":
+            for cell in row:
 
-    #     for row in len(range(pos[1], rowLength)):
-    #         # Can add position checking here. Two if conditions that signify complete and incomplete iteration
+                if cell in outData:
+                    continue
 
-    #         # Bug in logic from here up to end. Range() is making the for loop count up
-    #         for cell in len(range(0, colLength)):
+                if cell <= pSize and len(outData) < sSize:
+                    outData.append(cell)
 
-    #             if cell <= pSize and len(outData) < sSize:
-    #                 outData.append(cell)
+    print("Sequence: {}".format(outData))
 
     sys.exit(0)
 
