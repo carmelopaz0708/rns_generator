@@ -5,8 +5,10 @@ A command-line script for generating random number sequences from an external re
 Python script that generates a random sequence of integers. The script infers its sequence values from an external reference file stored in `rns_generator\tables\`. All other parameters should be provided by the user at runtime. This script can be used for probability sampling and can generate sequences for random, systematic and monetary sampling routines. An external reference table is **required** when running this script should be provided by the user.
 
 ## Preparation
-**Preparing reference files**
-As mentioned, external reference files, called *tables*, should be stored in `rns_generator\tables\` directory. Reference files should be in standard Excel 2010 format. Allowable file types for this 
+### Preparing tables
+As mentioned, external reference files, called *tables*, should be stored in `rns_generator\tables\` directory. Tables should be in standard Excel 2010 format. Allowable file extensions for this type are `.xlsx`, `.xlsm`, `.xltx` and `.xltm`.
+
+Table files should also contain.
 
 
 # Preparation
