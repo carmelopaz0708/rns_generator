@@ -1,9 +1,20 @@
-#!/usr/bin/python
+"""
+RNS Generator v1.0.0
+    A command line script for generating random sequences of integers based on user input. Infers the data from an external table of reference values. This script
+can be used for random, systematic and monetary unit sampling.
+    For installation, use and troubleshooting, please refer to the README file. Code is available in the author's public Github repository by following the link 
+below.
+
+(C) 2021 Carmelo Julius Paz
+(email) carmelopaz0708@gmail.com
+(github) https://github.com/carmelopaz0708
+
+Released under the GNU General Public License (GPLv3)
+"""
 
 from openpyxl import load_workbook
 from os import path
-import sys
-
+import csv, sys
 
 def main():
     # Ensure proper usage
@@ -47,30 +58,61 @@ def main():
         print("Closing program.")
         sys.exit(0)
 
-    # Generate RNS sequence
-    outData = []
+    outSeq = []
 
+    # Generate RNS sequence with Left to Right sweep
     if swp == "Left to Right":
-        a = tbData[pos[1] + 1:]
-        b = tbData[pos[1]][pos[2]:]
-        a.insert(0, b)
+        a = tbData[pos[1]:]
+        a[0] = a[0][pos[2]:]
         
         for row in a:
-
             for cell in row:
-
-                if cell in outData:
+                if cell == 0 or cell in outSeq:
                     continue
 
-                if cell <= pSize and len(outData) < sSize:
-                    outData.append(cell)
+                if cell <= pSize and len(outSeq) < sSize:
+                    outSeq.append(cell)
 
-    print("Sequence: {}".format(outData))
+    # Generate RNS sequence with Down, Left to Right sweep
+    if swp == "Down, Left to Right":
+        a = [*zip(*tbData)]
+        a = a[pos[2]:]
+        a[0] = a[0][pos[1]:]
 
+        for row in a:
+            for cell in row:
+                if cell == 0 or cell in outSeq:
+                    continue
+
+                if cell <= pSize and len(outSeq) < sSize:
+                    outSeq.append(cell)
+
+    print("Output: {}".format(outSeq))
+
+    # Export as .txt
+    outDir = "output"
+    outFile = "out.txt"
+    outPath = path.join(outDir, outFile)
+
+    with open(outPath, "w") as file:
+        file.write("{}\nWorkbook: {}".format(sep, sys.argv[1]))
+        file.write("\nWorksheet: {}".format(tbName))
+        file.write("\nPopulation: {}".format(pSize))
+        file.write("\nSample: {}".format(sSize))
+        file.write("\nRNS Start Value: {}".format(pos[0]))
+        file.write("\nRNS Start Position: row {}, col. {}".format(pos[1], pos[2]))
+        file.write("\nSweep: {}".format(swp))
+        file.write("\n{}\nOUTPUT:\n".format(sep))
+        wr = csv.writer(file)
+        wr.writerow(outSeq)
+    
+    print("Exit with success. Please check output.txt in {}".format(outPath))
     sys.exit(0)
 
 
 def getTableName(workbook, s):
+    '''Returns the name of the worksheet'''
+
     sheets = tuple(workbook.sheetnames)
 
     print("INFO: Loaded {} sheets from {}\n{}\n\t\tENTER VARIABLES\nTable Names:".format(len(sheets), sys.argv[1], s))
@@ -100,6 +142,8 @@ def getTableName(workbook, s):
 
 
 def getTableData(key, value):
+    '''Returns the cell values of worksheet_name as a 2D list'''
+
     ws = key[value]
     data = []
 
@@ -110,6 +154,8 @@ def getTableData(key, value):
 
 
 def getPopulation(s):
+    '''Returns user input for population size'''
+
     while True:
         try:
             populationLimit = int(input("Enter population limit(inclusive): "))
@@ -131,6 +177,8 @@ def getPopulation(s):
 
 
 def getSampleSize(s):
+    '''Returns user input for sample size'''
+
     while True:
         try:
             sampleSize = int(input("Enter sample size: "))
@@ -152,9 +200,12 @@ def getSampleSize(s):
 
 
 def getPosition(maxRows, maxColumns, table, s):
+    '''Obtains starting cell position from worksheet_name'''
+
     while True:
         try:
             usrRow = int(input("Enter starting row(-y): "))
+
             if usrRow <= 0 or usrRow > maxRows:
                 raise ValueError
 
@@ -169,6 +220,7 @@ def getPosition(maxRows, maxColumns, table, s):
     while True:
         try:
             usrCol = int(input("Enter starting column(+x): "))
+
             if usrCol <= 0 or usrCol > maxColumns:
                 raise ValueError
 
@@ -187,6 +239,8 @@ def getPosition(maxRows, maxColumns, table, s):
 
 
 def getSweep(s):
+    '''Returns general sweeping algorithm as string'''
+
     allowableSweep = ("Left to Right", "Down, Left to Right")
     print("Sweep patterns:")
 
@@ -214,6 +268,8 @@ def getSweep(s):
 
 
 def finalize(tableName, populationSize, sampleSize, position, sweep, s):
+    '''Returns flag for proceed with sequence'''
+
     print("Table: {}\nPopulation Size: {}\nSample Size: {}".format(tableName, populationSize, sampleSize))
     print("RNS Start Value: {}\nRNS Start Position: row {}, col. {}".format(position[0], position[1] + 1, position[2] + 1))
     print("Sweep: {}".format(sweep))
