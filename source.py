@@ -100,13 +100,13 @@ def main():
         file.write("\nPopulation: {}".format(pSize))
         file.write("\nSample: {}".format(sSize))
         file.write("\nRNS Start Value: {}".format(pos[0]))
-        file.write("\nRNS Start Position: row {}, col. {}".format(pos[1], pos[2]))
+        file.write("\nRNS Start Position: row {}, col. {}".format(pos[1] + 1, pos[2] + 1))
         file.write("\nSweep: {}".format(swp))
         file.write("\n{}\nOUTPUT:\n".format(sep))
         wr = csv.writer(file)
         wr.writerow(outSeq)
     
-    print("Exit with success. Please check output.txt in {}".format(outPath))
+    print("Exit with success. Please check {} in the {} folder".format(outFile, outDir))
     sys.exit(0)
 
 
