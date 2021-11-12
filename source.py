@@ -1,5 +1,5 @@
 """
-RNS Generator v1.0.0
+RNS Generator v1.0.1
     A command-line script for generating random number sequences from an external reference table. This script can be used for random, systematic and monetary 
 unit sampling.
     For installation, use and troubleshooting, please refer to the README file. Code is available in the author's public Github repository by following the 
@@ -62,30 +62,56 @@ def main():
 
     # Generate RNS sequence with Left to Right sweep
     if swp == "Left to Right":
-        a = tbData[pos[1]:]
-        a[0] = a[0][pos[2]:]
+        slicedTab = tbData[pos[1]:]
+        slicedTab[0] = slicedTab[0][pos[2]:]
         
-        for row in a:
+        for row in slicedTab:
             for cell in row:
                 if cell == 0 or cell in outSeq:
                     continue
 
                 if cell <= pSize and len(outSeq) < sSize:
                     outSeq.append(cell)
+
+        if len(outSeq) < sSize:
+            print("Temp: {}".format(outSeq))
+            isLoopBack = promptLoopBack(sep)
+
+            if isLoopBack:
+                for row in tbData:
+                    for cell in row:
+                        if cell == 0 or cell in outSeq:
+                            continue
+
+                        if cell <= pSize and len(outSeq) < sSize:
+                            outSeq.append(cell)
 
     # Generate RNS sequence with Down, Left to Right sweep
     if swp == "Down, Left to Right":
-        a = [*zip(*tbData)]
-        a = a[pos[2]:]
-        a[0] = a[0][pos[1]:]
+        zipTab = [*zip(*tbData)]
+        slicedTab = zipTab[pos[2]:]
+        slicedTab[0] = slicedTab[0][pos[1]:]
 
-        for row in a:
+        for row in slicedTab:
             for cell in row:
                 if cell == 0 or cell in outSeq:
                     continue
 
                 if cell <= pSize and len(outSeq) < sSize:
                     outSeq.append(cell)
+
+        if len(outSeq) < sSize:
+            print("Temp: {}".format(outSeq))
+            isLoopBack = promptLoopBack(sep)
+
+            if isLoopBack:
+                for row in zipTab:
+                    for cell in row:
+                        if cell == 0 or cell in outSeq:
+                            continue
+
+                        if cell <= pSize and len(outSeq) < sSize:
+                            outSeq.append(cell)
 
     print("Output: {}".format(outSeq))
 
@@ -285,6 +311,27 @@ def finalize(tableName, populationSize, sampleSize, position, sweep, s):
                 print(s)
 
                 if response == 'y':
+                    return True
+
+                else:
+                    return False
+        
+        except KeyboardInterrupt:
+            sys.exit(0)
+
+
+def promptLoopBack(s):
+    while True:
+        try:
+            isloopBack = input("Sequence less than sample size. Continue from start(y, n)? ").rstrip().lower()
+            print(s)
+
+            if isloopBack not in ['y', 'n']:
+                continue
+
+            else:
+
+                if isloopBack == 'y':
                     return True
 
                 else:
