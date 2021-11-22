@@ -13,8 +13,7 @@ Released under the GNU General Public License (GPLv2)
 """
 
 from openpyxl import load_workbook
-import os
-import csv, sys
+import os, csv, sys
 
 def main():
     # Ensure proper usage
