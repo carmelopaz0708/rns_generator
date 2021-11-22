@@ -1,6 +1,0 @@
-OUTPUT DIRECTORY
-
-Directory for exported '.txt' files.
-
-Please do not delete this folder. 
-In case of deletion, create a folder named "output" in the same directory as the "tables" folder.

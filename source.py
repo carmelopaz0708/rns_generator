@@ -1,6 +1,6 @@
 """
 RNS Generator v1.0.1
-    A command-line script for generating random number sequences from an external reference table. This script can be used for random, systematic and monetary 
+    A Python script for generating random number sequences from an external reference table. This script can be used for random, systematic and monetary 
 unit sampling.
     For installation, use and troubleshooting, please refer to the README file. Code is available in the author's public Github repository by following the 
 link below.
@@ -9,11 +9,11 @@ link below.
 (email) carmelopaz0708@gmail.com
 (github) https://github.com/carmelopaz0708
 
-Released under the GNU General Public License (GPLv3)
+Released under the GNU General Public License (GPLv2)
 """
 
 from openpyxl import load_workbook
-from os import path
+import os
 import csv, sys
 
 def main():
@@ -28,11 +28,16 @@ def main():
         print("Invalid file type used as reference.")
         sys.exit(2)
 
-    # Check reference file in directory
+    # Check if tables directory exists
     referenceDir = "tables"
-    referenceFile = path.join(referenceDir, sys.argv[1])
-    if not path.exists(referenceFile):
-        print("Reference file {} missing from tables directory.".format(sys.argv[1]))
+    if not os.path.isdir(referenceDir):
+        os.makedirs(referenceDir)
+        print("Generated table directory in root folder. Please save your tables here.")
+
+    # Check if file is in tables directory
+    referenceFile = os.path.join(referenceDir, sys.argv[1])
+    if not os.path.exists(referenceFile):
+        print("Reference file \"{}\" missing from tables directory.".format(sys.argv[1]))
         sys.exit(3)
 
     sep = "----------------------------------------------------------"
@@ -45,7 +50,6 @@ def main():
     tbData = getTableData(wb, tbName)
     pSize = getPopulation(sep)
     sSize = getSampleSize(sep)
-
     rowLength = len(tbData)
     colLength = len(tbData[0])
     pos = getPosition(rowLength, colLength, tbData, sep)
@@ -117,8 +121,11 @@ def main():
 
     # Export as .txt
     outDir = "output"
+    if not os.path.exists(outDir):
+        os.makedirs(outDir)
+
     outFile = "out.txt"
-    outPath = path.join(outDir, outFile)
+    outPath = os.path.join(outDir, outFile)
 
     with open(outPath, "w") as file:
         file.write("{}\nWorkbook: {}".format(sep, sys.argv[1]))
@@ -132,7 +139,7 @@ def main():
         wr = csv.writer(file)
         wr.writerow(outSeq)
     
-    print("Exit with success. Please check {} in the {} folder".format(outFile, outDir))
+    print("Exit with success. Please check {} in the {} folder of root directory.".format(outFile, outDir))
     sys.exit(0)
 
 
