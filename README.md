@@ -58,10 +58,8 @@ python source.py reference.xlsx
 Output files are named automatically as *output.txt*. They are stored in the `rns_generator\output` directory. Note that new output files will replace old ones in the directory every time the script is executed to completion (when the final prompt says "exit with success"). If you want to retain these files, you'll have to manually recover them from the directory before running a new instance of the script.
 
 ## Copyright
-(C) 2021 Carmelo Julius Paz
-
+© 2021 Carmelo Julius Paz
 (email) carmelopaz0708@gmail.com
-
 (github) [Carmelo Paz](https://github.com/carmelopaz0708)
 
 
