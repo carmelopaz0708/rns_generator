@@ -59,7 +59,9 @@ Output files are named automatically as *output.txt*. They are stored in the `rn
 
 ## Copyright
 © 2021 Carmelo Julius Paz
+
 (email) carmelopaz0708@gmail.com
+
 (github) [Carmelo Paz](https://github.com/carmelopaz0708)
 
 
