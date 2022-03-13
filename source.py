@@ -9,7 +9,7 @@ link below.
 (email) carmelopaz0708@gmail.com
 (github) https://github.com/carmelopaz0708
 
-Released under the GNU General Public License (GPLv2)
+Released under the GNU General Public License (gpl-3.0)
 """
 
 from openpyxl import load_workbook
